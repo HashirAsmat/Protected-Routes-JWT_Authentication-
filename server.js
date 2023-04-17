@@ -1,18 +1,31 @@
 const express = require('express')
 const app = express();
-const userRoute = require('./routes/users');
-app.use(express.json());
 const mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://Hashir_test_1:test1@cluster1.99mrp.mongodb.net/Mongoose"
-)
+const cookiePaser=require('cookie-parser');
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+const Router = require('./routes');
+//middleWare functions
+app.use(cookiePaser());
+app.use(express.json());
+app.use(express.urlencoded())
 
-app.get('/',(req, res) => {
-    res.send("base URL working! ");
-    
-})
-app.use('/users',userRoute);
+connection();
+
+//All routes
+app.use('/api',Router)
 
 app.listen(3000,()=>{
     console.log('listening on port',3000);
 })
 // server file
+/////////////////////////////////////////////////////
+async function connection (){
+    try{
+    mongoose.connect("mongodb+srv://Hashir_test_1:test1@cluster1.99mrp.mongodb.net/mernstack")
+    console.log("connected to database!")
+    }
+    catch(err){console.log("could not connect to database!" + err.message)
+    }
+
+}

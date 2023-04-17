@@ -1,0 +1,58 @@
+<%- include('partials/header'); -%>
+
+<form action="/login">
+  <h2>Login</h2>
+  <label for="email">Email</label>
+  <input type="text" name="email" required />
+  <div class="emailError"></div>
+  <label for="password">Password</label>
+  <input type="password" name="password" required />
+  <div class="passwordError"></div>
+  <button>login</button>
+</form>
+
+<%- include('partials/footer'); -%>
+
+<script>
+  const form = document.querySelector('form');
+  const emailError= document.querySelector('.emailError');
+  const passwordError=document.querySelector('.passwordError');
+
+
+form.addEventListener('submit', async(e) => {
+  e.preventDefault();
+
+  //reset errors 
+  emailError.textContent='';
+  passwordError.textContent='';
+
+//get the values
+  const email = form.email.value;
+  const password = form.password.value;
+
+  
+  try{
+  //through fetch we can access the data from the "/api/signup" route data that we are getting there as a response i-e res.d
+   const res = await fetch('/api/login',{
+      method:'POST',
+      body:JSON.stringify({email,password}),
+      headers: {'Content-Type':'application/json'}
+      
+    })
+    const data = await res.json();
+    console.log(data);
+    console.log("data Error" , data.errors);
+if(data.errors){
+emailError.textContent=data.errors.email;
+passwordError.textContent=data.errors.password;
+}
+if(data.user){
+location.assign('/api/home/');
+}
+
+  }
+  catch(err){
+    console.log(err);
+  }
+});
+</script>  

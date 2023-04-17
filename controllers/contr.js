@@ -29,6 +29,7 @@ const User = require('../models/index');
 // }
 
 
+/// we are not performing those operation currently this is just for concept purpose
 async function get(req, res,) {
 try{
 const {id} = req.params;

@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const controller =require('../controllers/contr');
+const controller =require('../controllers/contr')
+
+
+router.post('/', controller.post)
 
 
 //you have to be careful putting the route that is using a param after the regular route that worked for me.
